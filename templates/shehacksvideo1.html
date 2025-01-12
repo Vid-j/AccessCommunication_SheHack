@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+      crossorigin="anonymous"
+    />
+  <title>Access Communication</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      font-size: 19px;
+      margin: 10px;
+      margin-top: 10px;
+      padding-top: 10px;
+      color: #353536;
+      background-color: #fffdf2;
+    }
+    p {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+    video {
+      margin-top: 20px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      max-width: 100%;
+      height: auto;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #00008B;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #004bb3;
+    }
+    header {
+      background-color: #84b3f5;
+      padding: 10px;
+      margin: 10px;
+      color: #00008B;
+    }
+    a:link {
+      color: #84b3f5;
+      background-color: transparent;
+      text-decoration: none;
+    }
+    a:visited {
+      color: #00008B;
+      background-color: transparent;
+      text-decoration: none;
+    }
+    a:hover {
+      color: #004bb3;
+      background-color: transparent;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<header>
+  <h1>Access Communications</h1>
+</header>
+<body>
+  <video id="webcam" autoplay playsinline></video>
+  <br>
+  <button id="stopButton">Stop Webcam</button>
+  
+  <script>
+    const videoElement = document.getElementById('webcam');
+    const stopButton = document.getElementById('stopButton');
+    let stream = null;
+
+    async function startWebcam() {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        videoElement.srcObject = stream;
+      } catch (error) {
+        console.error('Error accessing the webcam:', error);
+        alert('Could not access the webcam. Please check your permissions.');
+      }
+    }
+
+    stopButton.addEventListener('click', () => {
+      if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+        stream = null;
+      }
+      videoElement.srcObject = null;
+    });
+
+    // Start the webcam on page load
+    startWebcam();
+  </script>
+</body>
+<footer>
+  <p>To learn more ASL, check out <a href="https://lifeprint.com/">this site</a>!
+</footer>
+</html>
